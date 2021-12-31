@@ -1,0 +1,49 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.bg-image {
+    background-image: url(../image/bg-1.jpg);
+}
+
+.header .header-logo {
+    font-size: 40px;    
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #fff;
+}
+
+.content {
+    margin-top: 70px;
+}
+
+.content .title-content {
+    margin-top: 10px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.content .image-item:hover {
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+.content .image-list {
+    margin-top: 20px;    
+}
+
+.content .share-image {
+    font-size: 19px;
+    text-decoration: none;
+}
+
+.footer .text-footer {
+    font-size: 20px;
+}
+
+.image {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
