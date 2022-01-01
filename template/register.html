@@ -11,7 +11,41 @@
         <input type="text" name="fullname">
         <input type="text" name="username">
         <input type="password" name="password">
-        <button type="submit">submit</button>
+        <div id="submit">submit</div>
     </div>
+
+    <script>
+        let usernameEl=document.querySelector('input[name="username"]');
+        let nameEl=document.querySelector('input[name="fullname"]')
+        let passwordEl=document.querySelector('input[name="password"]');
+        let btnRegister=document.querySelector('#submit')
+        btnRegister.addEventListener('click',(e)=>{
+            console.log(usernameEl.value)
+            console.log(passwordEl.value)
+            fetch('http://localhost:5000/api/register',{
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json'
+                },
+                method:'POST',
+                body:JSON.stringify({
+                    username:usernameEl.value,
+                    password:passwordEl.value,
+                    name:nameEl.value
+                })
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                console.log(res)
+                if(res.success){
+                    let isRegister = true;
+                    window.location.href=window.location.pathname.replace('register','index')
+                    localStorage.setItem('isRegister',JSON.stringify(isRegister))
+
+                }
+            })
+        })
+        
+    </script>
 </body>
 </html>
