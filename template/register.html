@@ -53,24 +53,36 @@
         let loading=document.querySelector('.spinner-border')
         var i=""
         console.log(loading)
-        passwordEl.addEventListener('oninput',(e)=>{
-            if(passwordEl.value!=checkPasswordEl.value){
-                i+="Password incorrect!!!";
-                document.getElementById('print-error').innerHTML=i+'\n';
-            }
-            else if(passwordEl.value=""){
-                i+="Please enter a password";
-                document.getElementById('print-error').innerHTML=i+'\n';
-            }
-        })
-
         btnRegister.addEventListener('click',(e)=>{
-            if(passwordEl.value!=checkPasswordEl.value)
+            if(nameEl.value=='')
+            {
+                i+="Please enter your name!";
+            }
+
+            else if(usernameEl.value.match(/^\s+$/) != null)
+            {
+                i+="Username cannot contain spaces!";
+            }
+
+            else if(usernameEl.value=='')
+            {
+                i+="Please enter your username!";
+            }
+
+            else if(passwordEl.value!=checkPasswordEl.value)
             {
                 i+="Password incorrect!!!";
 
             }
+
+            else if(passwordEl.value==''){
+                i+="Please enter your password!";
+            }
             
+            else if(passwordEl.value.match(/^\s+$/) != null)
+            {
+                i+="Password cannot contain spaces!";
+            }
             else{
                 loading.style.display="block";
 
@@ -114,7 +126,11 @@
                 }
             })
             }
-            document.getElementById('print-error').innerHTML=i+'\n';
+            document.getElementById('print-error').innerHTML=i ;
+            setTimeout(()=>{
+                i='';
+            },0)
+            setTimeout(()=>{document.getElementById('print-error').innerHTML=''},5000)
         })
         
     </script>
