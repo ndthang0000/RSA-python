@@ -4,45 +4,71 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="./assets/css/login.css">
     <title>Document</title>
 </head>
-<body>
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <div id="submit">submit</div>
 
-    <script>
-        let usernameEl=document.querySelector('input[name="username"]');
-        let passwordEl=document.querySelector('input[name="password"]');
-        let submitLogin=document.querySelector('#submit');
-        let isLogin=JSON.parse(localStorage.getItem('isLogin'))
-        
-        submitLogin.addEventListener('click',(e)=>{
-            console.log(usernameEl.value)
-            console.log(passwordEl.value)
-            fetch('http://localhost:5000/api/login',{
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json'
-                },
-                method:'POST',
-                body:JSON.stringify({username:usernameEl.value,password:passwordEl.value})
-            })
+<body >
+    <div class=" login-container">
+        <div class=" login-form">
+            <h3 style="padding-bottom:20px;">Login</h3>
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="User name *" value="" />
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Password *" value="" />
+            </div>
+            <div class="form-group">
+                <div class="btnSubmit" id="submit-btn" >Login</div>
+            </div>
+            <div class="form-group">
+                <div class="register">Register here!</div>
+            </div>      
+        </div>
+    </div>
+    
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        .then(res=>res.json())
-        .then(res=>{
-            console.log(res)
-            if(res.success){
-                let isLogin = true;
-                window.location.href=window.location.pathname.replace('login','index')
-                localStorage.setItem('isLogin',JSON.stringify(isLogin))
 
-            }
+<script>
+    let usernameEl=document.querySelector('input[name="username"]');
+    let passwordEl=document.querySelector('input[name="password"]');
+    let submitLogin=document.querySelector('#submit-btn');
+    let btnRegister=document.querySelector('.register');
+    let isLogin=JSON.parse(localStorage.getItem('isLogin'))
+    
+    btnRegister.addEventListener('click',(e)=>{
+        window.location.href=window.location.pathname.replace('login','register')
+    })
+    submitLogin.addEventListener('click',(e)=>{
+        console.log(usernameEl.value)
+        console.log(passwordEl.value)
+        fetch('http://localhost:5000/api/login',{
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json'
+            },
+            method:'POST',
+            body:JSON.stringify({username:usernameEl.value,password:passwordEl.value})
         })
-        })
-        if(isLogin){
+
+    .then(res=>res.json())
+    .then(res=>{
+        console.log(res)
+        if(res.success){
+            let isLogin = true;
             window.location.href=window.location.pathname.replace('login','index')
+            localStorage.setItem('isLogin',JSON.stringify(isLogin))
+
         }
-    </script>
+    })
+    })
+    if(isLogin){
+        window.location.href=window.location.pathname.replace('login','index')
+    }
+</script>
 </body>
+
 </html>
