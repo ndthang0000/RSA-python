@@ -4,25 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="./assets/css/login.css">
     <title>Document</title>
 </head>
-<body>
-    <div class="register">
-        <input type="text" name="fullname">
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <div id="submit">submit</div>
+
+<body >
+    <div class=" login-container">
+        <div class=" login-form">
+            <h3 style="padding-bottom:20px;">Register</h3>
+            <div class="form-group">
+                <input type="text" name="full-name" class="form-control" placeholder="Your name *" value="" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Your username *" value="" />
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Your password *" value="" />
+            </div>
+            <div class="form-group">
+                <input type="password" name="check-password" class="form-control" placeholder="Confirm your password *" value="" />
+            </div>
+            <div class="form-group">
+                <div class="btnSubmit" id="submit-btn" >Register!</div>
+            </div>   
+        </div>
     </div>
+    
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script>
         let usernameEl=document.querySelector('input[name="username"]');
-        let nameEl=document.querySelector('input[name="fullname"]')
+        let nameEl=document.querySelector('input[name="full-name"]')
         let passwordEl=document.querySelector('input[name="password"]');
-        let btnRegister=document.querySelector('#submit')
+        let checkPasswordEl=document.querySelector('input[name="check-password"]');
+        let btnRegister=document.querySelector('#submit-btn')
+        
         btnRegister.addEventListener('click',(e)=>{
-            console.log(usernameEl.value)
-            console.log(passwordEl.value)
-            fetch('http://localhost:5000/api/register',{
+            if(passwordEl.value!=checkPasswordEl.value){
+                console.log('sai')
+            }
+            else{
+                fetch('http://localhost:5000/api/register',{
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type':'application/json'
@@ -44,6 +68,8 @@
 
                 }
             })
+            }
+            
         })
         
     </script>
