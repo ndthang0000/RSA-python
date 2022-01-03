@@ -9,12 +9,15 @@
     width:30%;
     padding: 5%;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    padding-bottom: 20px;
 }
 .login-form h3{
     text-align: center;
     color: #333;
 }
-
+.form-group{
+    margin-bottom: 15px;
+}
 .login-container form{
     padding: 10%;
 }
