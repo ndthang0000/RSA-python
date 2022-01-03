@@ -55,13 +55,20 @@ def register():
 
 @app.route('/api/login', methods=['POST'])
 def login():
+    print('vo day')
     username = request.json['username']
     password = request.json['password']
+    print(username)
     user = db.user.find_one({"username": username})
     if user:
         if bcrypt.checkpw(password.encode(), user['password']):
             return jsonify(success=True)
         return jsonify(success=False, message='Mật khẩu không chính xác')
+    return jsonify(success=False, message='Tài khoản không tồn tại')
+
+@app.route('/api/test', methods=['GET'])
+def test():
+    print('vo day')
     return jsonify(success=False, message='Tài khoản không tồn tại')
 
 if __name__ == '__main__':
