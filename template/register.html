@@ -14,10 +14,10 @@
 <body >
     <div class=" login-container">
         <div class=" login-form">
-            <h3 style="padding-bottom:20px;">Đăng ký</h3>
+            <h3 style="padding-bottom:20px;">ĐĂNG KÝ</h3>
             <div class="form-group">
                 <input type="text" name="full-name" class="form-control" placeholder="Họ tên *" value="" />
-                <span class ="print-error" id="err-fullname">hello</span>
+                <span class ="print-error" id="err-fullname"></span>
             </div>
             <div class="form-group">
                 <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập *" value="" />
@@ -32,7 +32,7 @@
                 <span class ="print-error" id="err-checkpass"></span>
             </div>
             <div class="form-group">
-                <div class="btnSubmit" id="submit-btn" >Register!</div>
+                <div class="btnSubmit" id="submit-btn" >Đăng ký!</div>
             </div>   
             <div class="spinner-border" role="status" style="display: none; ">
                 <span class="visually-hidden" >Loading...</span>
@@ -162,7 +162,7 @@
                     let isRegister = true;
                     localStorage.setItem('isRegister',JSON.stringify(isRegister))
                     Toastify({
-                        text: "Register succesful!!",
+                        text: "Đăng ký thành công!!",
                         duration: 2000,
                         newWindow: true,
                         close: true,
@@ -179,7 +179,7 @@
                 }
                 else{
                     Toastify({
-                        text: "Tên đăng nhập đã tồn tại!!",
+                        text: res.message,
                         duration: 2000,
                         newWindow: true,
                         close: true,
