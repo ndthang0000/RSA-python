@@ -1,10 +1,4 @@
 document.addEventListener("DOMContentLoaded",(e)=>{
-
-    //check login
-    let isLogin=JSON.parse(localStorage.getItem('isLogin'))
-    if(!isLogin){
-        window.location.href=window.location.pathname.replace('index','login')
-    }
     
     //log out
     let btnLogOut=document.querySelector('#log-out')
