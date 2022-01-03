@@ -49,7 +49,7 @@
 
 .print-error{
     color:red;
-    font-weight: 600;
+    font-weight: 400;
 }
 /*TABLET*/
 @media (min-width:740px) and (max-width:1366px)
