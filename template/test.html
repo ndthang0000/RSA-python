@@ -7,13 +7,29 @@
     <title>Document</title>
 </head>
 <body>
+    <p>This
     <script>
-        var mystring =' '
-        if(mystring.match(/^\s+$/) === null) {
-    alert("String is good");
-} else {
-    alert("String contains only whitespace");
-}
+        var string="a <br/> b"
+        document.querySelector('p').innerHTML=string 
+        var format = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+        console.log(string)
+        function checkInput(string){
+            if( /^[a-zA-Z ]+$/.test(string)){
+   return true;
+ }else{
+   return false;
+ }
+        }
+ 
+ console.log(checkInput(string));
+//    function hasWhiteSpace(s) {
+//   const whitespaceChars = [' ', '\t', '\n'];
+//   return whitespaceChars.some(char => s.includes(char));
+// }
+
+// console.log(hasWhiteSpace("Hello World!"));
+// console.log(hasWhiteSpace("HelloWorld!"));
+
     </script>
 </body>
 </html>
