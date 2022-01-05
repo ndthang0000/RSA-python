@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded",(e)=>{
 
     
     // toggle image avatar
-    const imageBtn=document.querySelector('.image-area')
     const logoutEl=document.querySelector('.list-item')
     document.addEventListener('click',(e)=>{
         if(e.target.classList.value==='img-avatar'){
@@ -24,9 +23,7 @@ document.addEventListener("DOMContentLoaded",(e)=>{
 
     // active menu item
     const menuEl=document.querySelectorAll('.menu-list a')
-    console.log(menuEl)
     menuEl.forEach(item=>{
-        console.log(item.href)
         if(item.href===location.href){
             item.classList.add('active')
         }
