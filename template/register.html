@@ -55,7 +55,6 @@
         let checkPasswordEl=document.querySelector('input[name="check-password"]');
         let btnRegister=document.querySelector('#submit-btn')
         let loading=document.querySelector('.spinner-border')
-
         var i=0;
         function checkInputName(string){
             if( /^[a-zA-Z ]+$/.test(string)){
@@ -138,8 +137,28 @@
 
 
         btnRegister.addEventListener('click',(e)=>{
+            if(nameEl.value==='')
+            {
+                document.getElementById('err-fullname').innerHTML='Vui lòng nhập tên của bạn! ';
+                i=1;
+            }
+            if(usernameEl.value==='')
+            {
+                document.getElementById('err-username').innerHTML='Vui lòng nhập tên đăng nhập!';
+                i=1;
+            }
+            if(passwordEl.value==='')
+            {
+                document.getElementById('err-password').innerHTML='Vui lòng nhập mật khẩu!';
+                i=1;
+            }
+            if(checkPasswordEl.value==='')
+            {
+                document.getElementById('err-checkpass').innerHTML='Vui lòng xác nhận mật khẩu!';
+                i=1;
 
-            
+            }   
+
             if(i==0)
             {
                 loading.style.display="block";
