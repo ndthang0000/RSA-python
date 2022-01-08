@@ -73,32 +73,8 @@
                     </button>
                 </div>
                 <div class="row image-list ms-2" style="margin-top: 50px;">
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="card" style="width: 100%;">
-                            <img src="./assets/image/image-1.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Hình ảnh đẹp</h5>
-                                <p class="card-text" style="color: #777;">Ngày đăng: 3-1-2022</p>
-                                <a href="./assets/image/image-1.jpg" download="" class="btn btn-primary"> 
-                                    <i class="bi bi-box-arrow-in-down" style="margin-right: 5px;"></i>
-                                    Tải xuống</a>
-                            </div>
-                            <i class="bi bi-share-fill" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-username="1" data-bs-imageid="2" ></i>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="card" style="width: 100%;">
-                            <img src="./assets/image/6.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Khóa học Nodejs</h5>
-                                <p class="card-text" style="color: #777;">Ngày đăng: 2-1-2022</p>
-                                <a href="./assets/image/6.png" download="" class="btn btn-primary"> 
-                                    <i class="bi bi-box-arrow-in-down" style="margin-right: 5px;"></i>
-                                    Tải xuống</a>
-                                </div>
-                                <i class="bi bi-share-fill" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-username="1" data-bs-imageid="2" ></i>    
-                        </div>
-                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -130,18 +106,15 @@
                 </div>
             </div>
         </footer>
+        <div id="canvas"></div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./assets/js/main.js"></script>
     <script>
     
-    
-    var exampleModal = document.getElementById('exampleModal')
-    exampleModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
-        var recipient = button.getAttribute('data-bs-username')
-        console.log(recipient)
-    })
+    let liseImage=document.querySelector('.image-list')
+    let canvasEl=document.querySelector('#canvas')
     let token=localStorage.getItem('token')
     fetch('http://localhost:5000/api/my-image',{
         headers: {
@@ -153,7 +126,60 @@
     })
     .then(res=>res.json())
     .then(res=>{
+        
+        let canvasHtml=''
+        for(let i=0;i<res.length;i++){
+            canvasHtml+=`<canvas class="canvas" style="display:none"></canvas>`
+        }
+        canvasEl.innerHTML=canvasHtml
+        let allCanvas=document.querySelectorAll('.canvas')
+        for(let i=0;i<res.length;i++){
+            allCanvas[i].height=res[i].height
+            allCanvas[i].width=res[i].width
+            let ctx=allCanvas[i].getContext('2d')
+            ctx.fillStyle = "red";
+            ctx.fillRect(0, 0, res[i].width, res[i].height);
+            var imgData = ctx.getImageData(0, 0, res[i].width, res[i].height);
+
+            var bytes  = CryptoJS.AES.decrypt(res[i].ciphertext, 'secret key 123');
+            var originalText = bytes.toString(CryptoJS.enc.Utf8);
+            let arrIamgeEncrypt=canvasStringToArr(originalText)
+            for(let j=0;j<imgData.data.length;j+=4){
+                imgData.data[j]=arrIamgeEncrypt[j]
+                imgData.data[j+1]=arrIamgeEncrypt[j+1]
+                imgData.data[j+2]=arrIamgeEncrypt[j+2]
+                imgData.data[j+3]=255
+            }
+            ctx.putImageData(imgData, 0, 0);
+            var url = allCanvas[i].toDataURL();
+            res[i].src=url
+        }
+
+        
         console.log(res)
+        let html=res.map(item=>{
+            return `<div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom:15px">
+                        <div class="card" style="width: 100%;">
+                            <img src="${item.src}" class="card-img-top" alt="..." style="width:100%;height:auto">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <p class="card-text" style="color: #888;">Ngày đăng: ${moment(item.createdAt.$date).format('lll')}</p>
+                                <a href="${item.src}" download="" class="btn btn-primary"> 
+                                    <i class="bi bi-box-arrow-in-down" style="margin-right: 5px;"></i>
+                                    Tải xuống</a>
+                            </div>
+                            <i class="bi bi-share-fill" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-username="1" data-bs-imageid="${item._id}" ></i>
+                        </div>
+                    </div>`
+        }).join(' ')
+        liseImage.innerHTML=html
+
+        var exampleModal = document.getElementById('exampleModal')
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget
+            var recipient = button.getAttribute('data-bs-username')
+            console.log(recipient)
+        })
     })
 
 // Decrypt

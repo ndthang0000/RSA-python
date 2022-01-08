@@ -4,7 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,Response
 from flask_cors import CORS
 from flask_pymongo import PyMongo
 import bcrypt
@@ -13,6 +13,7 @@ import os
 import datetime
 import jwt
 import json
+from bson import json_util
 
 app = Flask(__name__)
 CORS(app) 
@@ -96,14 +97,9 @@ def get_image():
     user = db.user.find_one({"username": username['username']})
     print(user)
     if user:
-        all_image=db.image.find_one({"user":user['_id']})
-        print(user['_id'])
-        print(all_image)
-        return json.dump(success=True,all_image=all_image)
-        # return jsonify(
-        #         success=True, 
-        #         all_image=dumps(all_image)
-        # )
+        all_image=db.image.find({"user":user['_id']})
+        data=json_util.dumps(all_image)
+        return Response(data,mimetype='application/json')
     else:
         return jsonify(success=False,message='User không tồn tại')
 
