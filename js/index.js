@@ -1,4 +1,4 @@
-const bigInt = require('big-integer');
+const bigInt=require('big-integer')
 
 class RSA {
   static randomPrime(bits) {
@@ -74,4 +74,4 @@ class RSA {
   }
 }
 
-module.exports = RSA;
+export default RSA;

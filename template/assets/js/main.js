@@ -1,3 +1,4 @@
+let token=localStorage.getItem('token')
 function canvasArrToString(pix) {
     var s="";
     // Removes alpha to save space.
@@ -23,10 +24,13 @@ document.addEventListener("DOMContentLoaded",(e)=>{
     
     //log out
     let btnLogOut=document.querySelector('#log-out')
-    btnLogOut.addEventListener('click', (e)=>{
-        localStorage.setItem('isLogin', JSON.stringify(false))
-        window.location.href=window.location.pathname.replace('index','login')
-    })
+    if(btnLogOut){
+        btnLogOut.addEventListener('click', (e)=>{
+            localStorage.setItem('isLogin', JSON.stringify(false))
+            window.location.href=window.location.pathname.replace('index','login')
+        })
+    }
+    
 
     
     // toggle image avatar
@@ -54,7 +58,10 @@ document.addEventListener("DOMContentLoaded",(e)=>{
     // side bar menu
     const headerEl=document.querySelector('.header-logo')
     const sideBarEl=document.querySelector('.side-bar-menu')
-    headerEl.addEventListener('click',(e)=>{
-        sideBarEl.classList.toggle('hidden-side-bar')
-    })
+    if(headerEl){
+        headerEl.addEventListener('click',(e)=>{
+            sideBarEl.classList.toggle('hidden-side-bar')
+        })
+    }
+    
 })
