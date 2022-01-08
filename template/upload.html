@@ -69,8 +69,8 @@
                 </div>
             </div>
         </div>
-        <canvas id="canvas"></canvas>
-        <canvas id="canvas-2" ></canvas>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <canvas id="canvas-2" style="display: none;"></canvas>
         <!-- footer -->
         <footer class="footer mt-1 bg-dark">
             <div class="container ">
@@ -89,27 +89,7 @@
     <script type="text/javascript">
         let token=localStorage.getItem('token')
         document.addEventListener("DOMContentLoaded",(e)=>{
-            function canvasArrToString(pix) {
-                var s="";
-                // Removes alpha to save space.
-                for (var i=0; i<pix.length; i+=4) {
-                    s+=(String.fromCharCode(pix[i])
-                        + String.fromCharCode(pix[i+1])
-                        + String.fromCharCode(pix[i+2]));
-                }
-                return s;
-            }
             
-            function canvasStringToArr(s) {
-                var arr=[];
-                for (var i=0; i<s.length; i+=3) {
-                    for (var j=0; j<3; j++) {
-                    arr.push(s.substring(i+j,i+j+1).charCodeAt());
-                    }
-                    arr.push(255); // Hardcodes alpha to 255.
-                }
-                return arr;
-            }
             const imageName=document.querySelector('input[name="image-name"]')
             const imagePreviewEl=document.querySelector('#image-preview')
             const fileEl=document.querySelector('input[name="image"]')
@@ -150,34 +130,6 @@
                         
                         //String image
                         var ciphertext = CryptoJS.AES.encrypt(canvasArrToString(rawData.data), 'secret key 123').toString();
-                        var bytes  = CryptoJS.AES.decrypt(ciphertext, 'secret key 123');
-                        var originalText = bytes.toString(CryptoJS.enc.Utf8);
-                        
-                        
-                        let arrIamgeEncrypt=canvasStringToArr(originalText)
-                        console.log(arrIamgeEncrypt)
-
-
-                        ctx2.fillStyle = "red";
-                        ctx2.fillRect(0, 0, 160, 160);
-                        function copy() {
-                            var imgData = ctx.getImageData(0, 0, 160, 160);
-                            for(let i=0;i<arrIamgeEncrypt.length;i+=4){
-                                imgData.data[i]=arrIamgeEncrypt[i]
-                                imgData.data[i+1]=arrIamgeEncrypt[i+1]
-                                imgData.data[i+2]=arrIamgeEncrypt[i+2]
-                                imgData.data[i+3]=255
-                            }
-                            ctx2.putImageData(imgData, 0, 0);
-                        }
-                        copy()
-                        // for(let i=0;i<rawData.data.length;i+=4){
-                        //     rawData.data[i]=255
-                        //     rawData.data[i+1]=0
-                        //     rawData.data[i+2]=arrIamgeEncrypt[i+2]
-                        //     rawData.data[i+3]=100
-                        // }
-                        // ctx.putImageData(rawData, 0, 0);
                         
                         btnSaveImg.addEventListener('click',(e)=>{
                             console.log({

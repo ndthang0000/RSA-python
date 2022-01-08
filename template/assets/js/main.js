@@ -1,3 +1,24 @@
+function canvasArrToString(pix) {
+    var s="";
+    // Removes alpha to save space.
+    for (var i=0; i<pix.length; i+=4) {
+        s+=(String.fromCharCode(pix[i])
+            + String.fromCharCode(pix[i+1])
+            + String.fromCharCode(pix[i+2]));
+    }
+    return s;
+}
+
+function canvasStringToArr(s) {
+    var arr=[];
+    for (var i=0; i<s.length; i+=3) {
+        for (var j=0; j<3; j++) {
+        arr.push(s.substring(i+j,i+j+1).charCodeAt());
+        }
+        arr.push(255); // Hardcodes alpha to 255.
+    }
+    return arr;
+}
 document.addEventListener("DOMContentLoaded",(e)=>{
     
     //log out
