@@ -62,12 +62,13 @@
             spinerEl.style.visibility='visible'
             submitLogin.style.opacity='0.7'
             submitLogin.style.pointerEvents='none'
-            fetch('https://rsa-python.herokuapp.com/api/login',{
+            fetch('http://localhost:5000/api/login',{
                 headers: {
+                    'Authenticate': `sdfsd`,
                     'Accept': 'application/json',
-                    'Content-Type':'application/json'
+                    'Content-Type': 'application/json'
                 },
-                method:'POST',
+                method: "POST",
                 body:JSON.stringify({username:usernameEl.value,password:passwordEl.value})
             })
             .then(res=>res.json())
@@ -79,6 +80,7 @@
                     let isLogin = true;
                     window.location.href=window.location.pathname.replace('login','index')
                     localStorage.setItem('isLogin',JSON.stringify(isLogin))
+                    localStorage.setItem('token',res.token)
                 }
                 else{
                     Toastify({
