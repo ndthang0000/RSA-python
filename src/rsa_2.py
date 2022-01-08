@@ -1,7 +1,7 @@
 
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+
 from random import randrange, getrandbits
 
 
@@ -82,7 +82,7 @@ def generatePrimeNumber(length):
   return A
 
 
- 
+
 def GCD(a,b):
   if a==0:
     return b
@@ -129,8 +129,21 @@ def Bezout(E,eulerTotient):   #gcdExtended
 
 
 #Finish basic things from RSA
+==upload anh===
+- Clien gửi public key RSA lên cho server 
+- server generate 1 key AES(lưu key này vào database) đc mã hóa bằng key public RSA  rồi gửi cho client 
+- client lấy key AES nhận đc từ server để mã hóa ảnh, rồi gửi ảnh đã encrypt bằng key AES đó lên cho server lưu trữ
+
+===get ảnh===
+- Clien gửi public key RSA lên cho server
+- Server đọc database lấy ra key AES rồi mã hóa bằng RSA(mới nhận) rồi gửi ảnh (đã mã hóa bằng AES) và key AES(mã hóa bằng RSA)
+- Client nhận Anh(encrypt) và key AES(encrypt), rồi giải mã để lấy key AES 
+- rồi dùng key AES đã giải mã ảnh 
 
 
+====chia sẽ ảnh=====
+- chủ sở hữa ảnh gửi yêu cầu chia sẽ lên server, Server sẽ sử dụng key AES trong database 
+- Thực hiện các bước tương tự như get ảnh
 
 #Now handle image stuffs :>>
 #color picture : RBG
@@ -191,50 +204,50 @@ def decryption(enc):
 #-----------------------------------------------------------
 #Let check
 
-print("Start step 1")
-# STEP 1: Generate Two Large Prime Numbers (p,q) randomly
-length=5
-P=generatePrimeNumber(length)
-Q=generatePrimeNumber(length)
-print(P)
-print(Q)
+# print("Start step 1")
+# # STEP 1: Generate Two Large Prime Numbers (p,q) randomly
+# length=5
+# P=generatePrimeNumber(length)
+# Q=generatePrimeNumber(length)
+# print(P)
+# print(Q)
 
-print("Start step 2")
-#Step 2: Calculate N=P*Q and Euler Totient Function (phi) = (P-1)*(Q-1)
-N=P*Q
-eulerTotient=(P-1)*(Q-1)
-print(N)
-print(eulerTotient)
+# print("Start step 2")
+# #Step 2: Calculate N=P*Q and Euler Totient Function (phi) = (P-1)*(Q-1)
+# N=P*Q
+# eulerTotient=(P-1)*(Q-1)
+# print(N)
+# print(eulerTotient)
 
-print("Start step 3")
-#Step 3: Find E such that GCD(E,eulerTotient)=1(i.e., e should be co-prime): E.D mod φ = 1 
-E=generatePrimeNumber(4)
+# print("Start step 3")
+# #Step 3: Find E such that GCD(E,eulerTotient)=1(i.e., e should be co-prime): E.D mod φ = 1 
+# E=generatePrimeNumber(4)
 
-while GCD(E,eulerTotient)!=1:
-  E=generatePrimeNumber(4)
-print(E)
+# while GCD(E,eulerTotient)!=1:
+#   E=generatePrimeNumber(4)
+# print(E)
 
-print("Start step 4")
-# Step 4: Find D.
-D=Bezout(E,eulerTotient)
-print(D)
+# print("Start step 4")
+# # Step 4: Find D.
+# D=Bezout(E,eulerTotient)
+# print(D)
 
-#image stuffs
-my_img = cv2.imread('D:/Pictures/hakuna.jpg')
-cv2.imshow("the originals",my_img)
-cv2.waitKey(0)
+# #image stuffs
+# my_img = cv2.imread('D:/Pictures/hakuna.jpg')
+# cv2.imshow("the originals",my_img)
+# cv2.waitKey(0)
 
-row,col=my_img.shape[0],my_img.shape[1]
-print("row:  ",row)
-print("col: ",col)
+# row,col=my_img.shape[0],my_img.shape[1]
+# print("row:  ",row)
+# print("col: ",col)
 
-print("Start step 5")
-#Step 5: Encryption 
-enc=encryption(my_img)
-show_EncryptImage(enc)
+# print("Start step 5")
+# #Step 5: Encryption 
+# enc=encryption(my_img)
+# show_EncryptImage(enc)
 
-print("Start step 6")
-#Step 6: Decryption
-dec_img=decryption(enc)
-cv2.imshow("decrypt",dec_img)
-cv2.waitKey(0)
+# print("Start step 6")
+# #Step 6: Decryption
+# dec_img=decryption(enc)
+# cv2.imshow("decrypt",dec_img)
+# cv2.waitKey(0)

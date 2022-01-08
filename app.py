@@ -103,10 +103,18 @@ def get_image():
     else:
         return jsonify(success=False,message='User không tồn tại')
 
+@app.route('/api/rsa', methods=['POST'])
+def getRSA():
+    d = request.json['d']
+    e = request.json['e']
+    print(d,e)
+    return jsonify(success=False, message=d)
+
 @app.route('/api/test', methods=['GET'])
 def test():
     print('vo day')
     return jsonify(success=False, message='Tài khoản không tồn tại')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
