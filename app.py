@@ -14,6 +14,7 @@ import datetime
 import jwt
 import json
 from bson import json_util
+from bson.objectid import ObjectId
 
 import RSA
 
@@ -111,6 +112,39 @@ def get_image():
         return Response(data,mimetype='application/json')
     else:
         return jsonify(success=False,message='User không tồn tại')
+
+@app.route('/api/get-share-image', methods=['POST'])
+def get_share_image():
+    n = request.json['n']
+    e = request.json['e']
+    e=int(str(e),10)
+    n=int(str(n),10)
+    token=request.headers['Authorization'].split(' ')[1]
+    username = jwt.decode(token,secretKey, algorithms=['HS256'])
+    user = db.user.find_one({"username": username['username']})
+    if user:
+        all_image=list(db.image.find({'shareId':user['_id']}))
+        for item in all_image:
+            item['key']=str(RSA.encryption(item['key'],e,n))
+            item['user']=db.user.find_one({'_id':item['user']})['name']
+        data=json_util.dumps(all_image)
+        return Response(data,mimetype='application/json')
+    else:
+        return jsonify(success=False)
+
+@app.route('/api/share-image', methods=['POST'])
+def share_image():
+    username=request.json['username']
+    id=request.json['id']
+    user = db.user.find_one({"username": username})
+    if user:
+        result=db.image.find_one_and_update(
+            {'_id': ObjectId(id)},
+            { '$push': {'shareId': user['_id']}},
+            )
+        return jsonify(success=True)
+    else:
+        return jsonify(success=False,message='Username không tồn tại')
 
 @app.route('/api/rsa', methods=['POST'])
 def getRSA():

@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        //check login
+        let isLogin=JSON.parse(localStorage.getItem('isLogin'))
+        if(!isLogin){
+            window.location.href=window.location.pathname.replace('index','login')
+        }
+    </script>
     <title>The One - uploads</title>
 
     <!-- Bootstrap 5 -->
@@ -180,11 +187,8 @@
                     })
                     .then(res=>res.json())
                     .then(res=>{
-                        console.log(res)
                         let keyAES=decrypt(res.AES_KEY,data.d,data.n)
-                        console.log(keyAES)
                         ciphertext = CryptoJS.AES.encrypt(canvasArrToString(rawData.data), keyAES).toString();
-                        console.log(ciphertext)
                         fetch(`http://localhost:5000/api/upload`,
                         {
                             headers:{
@@ -209,6 +213,8 @@
                                 btnSaveImg.style.pointerEvents='auto'
                                 resetForm()
                                 spinner.style.visibility='hidden'
+                                document.querySelector('#error').style.color='#2ecc71'
+                                document.querySelector('#error').innerText='Đăng ảnh thành công'
                             }
                         })
                     })
