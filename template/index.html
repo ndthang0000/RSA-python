@@ -88,20 +88,6 @@
         <header class="header bg-white" style="box-shadow: -1px 7px 14px 4px rgba(101,101,101,0.40);">
             <div class="container" style="align-items: center;">
                 <div class="row">
-<<<<<<< HEAD
-                    <div class="col-4 header-logo">THE ONE</div>
-                    <div class="col-8">
-                        <div class="dropdown float-end mt-3 mb-2">
-                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i>
-                              username
-                            </a>
-                          
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <li><div id="log-out" class="dropdown-item" >Đăng xuất</div></li>
-                            </ul>
-                          </div>
-=======
                     <div class="col-3 header-logo" style="color: #555;">
                         <img src="./assets//image/icon.png" width="50px" alt="">
                         <span class="name">
@@ -119,7 +105,6 @@
                         <div class="list-item ds-none-block">
                             <li><a href="./login.html" id="log-out">Đăng xuất</a></li>
                         </div>
->>>>>>> fc22f783e6bf04091285ac1d7a73d03f99cdd8eb
                     </div>
                 </div>
             </div>
@@ -185,28 +170,6 @@
         </footer>
         <div id="canvas"></div>
     </div>
-<<<<<<< HEAD
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-     <script>
-         
-         document.addEventListener("DOMContentLoaded",(e)=>{
-             let isLogin=JSON.parse(localStorage.getItem('isLogin'))
-             console.log(typeof isLogin)
-             if(!isLogin){
-                    window.location.href=window.location.pathname.replace('index','login')
-                }
-         })
-
-         let btnLogOut=document.querySelector('#log-out')
-         console.log(btnLogOut)
-         btnLogOut.addEventListener('click', (e)=>{
-             localStorage.setItem('isLogin', JSON.stringify(false))
-             window.location.href=window.location.pathname.replace('index','login')
-         })
-     </script>
-=======
     <script src="https://peterolson.github.io/BigInteger.js/BigInteger.min.js"></script>
     <script src="./assets/js/RSA.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -298,6 +261,5 @@
 
 // console.log(originalText); // 'my message'
     </script>
->>>>>>> fc22f783e6bf04091285ac1d7a73d03f99cdd8eb
 </body>
 </html>
