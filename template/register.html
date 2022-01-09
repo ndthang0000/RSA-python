@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/login.css">
+    <link rel="shortcut icon" href="./assets/image/favicon.ico" type="image/x-icon">
+    <title>Đăng ký</title>
+</head>
+
+<body >
+    <div class=" login-container">
+        <div class=" login-form">
+            <h3 style="padding-bottom:20px;">ĐĂNG KÝ</h3>
+            <div class="form-group">
+                <input type="text" name="full-name" class="form-control" placeholder="Họ tên *" value="" />
+                <span class ="print-error" id="err-fullname"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập *" value="" />
+                <span class ="print-error" id="err-username"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Mật khẩu *" value="" />
+                <span class ="print-error" id="err-password"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" name="check-password" class="form-control" placeholder="Xác minh mật khẩu *" value="" />
+                <span class ="print-error" id="err-checkpass"></span>
+            </div>
+            <div class="form-group" style="margin-top: 30px;margin-bottom: 10px;text-align: center;">
+                <div class="btnSubmit" id="submit-btn" style="margin-bottom: 20px;">Đăng ký!</div>
+                <span>Bạn đã có tài khoản?<a href="./login.html">Đăng nhập ngay</a></span>
+            </div>   
+            <div class="spinner-border" role="status" style="display: none; ">
+                <span class="visually-hidden" >Loading...</span>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+        let usernameEl=document.querySelector('input[name="username"]');
+        let nameEl=document.querySelector('input[name="full-name"]')
+        let passwordEl=document.querySelector('input[name="password"]');
+        let checkPasswordEl=document.querySelector('input[name="check-password"]');
+        let btnRegister=document.querySelector('#submit-btn')
+        let loading=document.querySelector('.spinner-border')
+        var i=0;
+        function checkInputName(string){
+            if( /^[a-zA-Z ]+$/.test(string)){
+            return false;
+            }else{
+            return true; 
+            }
+        }
+        nameEl.oninput=function(e){
+            if(checkInputName(nameEl.value))
+            {
+                document.getElementById('err-fullname').innerHTML='Tên không hợp lệ!<br/>(Tên chỉ chứa các giá trị a-z) ';
+                i=1;
+            }
+            else{
+                document.getElementById('err-fullname').innerHTML=' ';
+                i=0;
+            }
+        }
+        
+        function checkInputUsername(string){
+            if( /^[a-zA-Z0-9]+$/.test(string)){
+            return false;
+            }else{
+            return true;
+            }
+        }
+
+        usernameEl.oninput=function(e){
+            if(checkInputUsername(usernameEl.value))
+            {
+                document.getElementById('err-username').innerHTML='Tên đăng nhập không hợp lệ!<br/>(Tên đăng nhập không chứa kí tự đặc biệt, không chứa khoảng trắng)';
+                i=1;
+            }
+            else{
+                document.getElementById('err-username').innerHTML='';
+                i=0;
+            }
+        }
+
+        function checkInputPassword(string){
+            if( /^[ ]+$/.test(string)){
+            return true;
+            }
+            else if(string.length<6){
+                return true;
+            }
+            else if(string.length>16)
+            {
+                return true;
+            }
+            else{
+            return false;
+            }
+        }
+        passwordEl.oninput=function(e){
+            if(checkInputPassword(passwordEl.value))
+            {
+                document.getElementById('err-password').innerHTML='Mật khẩu không hợp lệ! <br/>(Mật khẩu không chứa khoảng trắng, tối thiểu 6 kí tự, tối đa 16 ki tự)';
+                i=1;
+            }
+            else{
+                document.getElementById('err-password').innerHTML=' ';
+                i=0;
+            }
+        }
+
+        checkPasswordEl.onchange=function(e){
+            if(passwordEl.value!=checkPasswordEl.value)
+            {
+                document.getElementById('err-checkpass').innerHTML='Mật khẩu không khớp!';
+                i=1;
+
+            }   
+            else{
+                document.getElementById('err-checkpass').innerHTML='';
+                i=0;
+            }
+        }
+
+
+        btnRegister.addEventListener('click',(e)=>{
+            if(nameEl.value==='')
+            {
+                document.getElementById('err-fullname').innerHTML='Vui lòng nhập tên của bạn! ';
+                i=1;
+            }
+            if(usernameEl.value==='')
+            {
+                document.getElementById('err-username').innerHTML='Vui lòng nhập tên đăng nhập!';
+                i=1;
+            }
+            if(passwordEl.value==='')
+            {
+                document.getElementById('err-password').innerHTML='Vui lòng nhập mật khẩu!';
+                i=1;
+            }
+            if(checkPasswordEl.value==='')
+            {
+                document.getElementById('err-checkpass').innerHTML='Vui lòng xác nhận mật khẩu!';
+                i=1;
+
+            }   
+
+            if(i==0)
+            {
+                loading.style.display="block";
+
+                fetch('https://rsa-python.herokuapp.com/api/register',{
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json'
+                },
+                method:'POST',
+                body:JSON.stringify({
+                    username:usernameEl.value,
+                    password:passwordEl.value,
+                    name:nameEl.value
+                })
+            })
+            .then(res=>res.json())
+            .then(res=>{
+                loading.style.display="none";
+                console.log(res)
+                if(res.success){
+                    let isRegister = true;
+                    localStorage.setItem('isRegister',JSON.stringify(isRegister))
+                    Toastify({
+                        text: "Đăng ký thành công!!",
+                        duration: 2000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        }
+                        
+                    }).showToast();
+                    setTimeout(()=>{window.location.href=window.location.pathname.replace('register','index')},2000)
+                    
+                }
+                else{
+                    Toastify({
+                        text: res.message,
+                        duration: 2000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        }
+                        
+                    }).showToast();
+                }
+            })
+            }
+        })
+        
+    </script>
+</body>
+</html>
