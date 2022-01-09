@@ -207,11 +207,13 @@
             let html=res.map(item=>{
                 return `<div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom:15px">
                             <div class="card" style="display:flex;justify-content:center;align-item:center;flex-direction:column;overflow:hidden">
-                                <img src="${item.src}" class="card-img-top" alt="..." style="flex:1">
+                                <div style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:170px">
+                                    <img src="${item.src}" class="card-img-top" alt="..." style="width:100%;height:auto">
+                                </div>
                                 <div class="card-body" style="flex:1">
                                     <h5 class="card-title">${item.name}</h5>
-                                    <p class="card-text" style="color: #888;">Ngày đăng: ${moment(item.createdAt.$date).format('lll')}</p>
-                                    <p style="color:#888">Được chia sẽ bởi : ${item.user}</p>
+                                    <p class="card-text" style="color: #888;">Ngày đăng: <span style="font-weight:600;color:#777"> ${moment(item.createdAt.$date).format('lll')} </span></p>
+                                    <p style="color:#888">Được chia sẽ bởi : <span style="font-weight:600;color:#777">${item.user}</span> </p>
                                     <a href="${item.src}" download="${item.name}" class="btn btn-primary download-img"> 
                                         <i class="bi bi-box-arrow-in-down" style="margin-right: 5px;"></i>
                                         Tải xuống</a>

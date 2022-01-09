@@ -28,7 +28,9 @@ document.addEventListener("DOMContentLoaded",(e)=>{
     if(btnLogOut){
         btnLogOut.addEventListener('click', (e)=>{
             localStorage.setItem('isLogin', JSON.stringify(false))
+            localStorage.removeItem('token')
             window.location.href=window.location.pathname.replace('index','login')
+            
         })
     }
     

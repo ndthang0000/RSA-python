@@ -242,7 +242,9 @@
             let html=res.map(item=>{
                 return `<div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom:15px">
                             <div class="card" style="display:flex;justify-content:center;align-item:center;flex-direction:column;overflow:hidden">
-                                <img src="${item.src}" class="card-img-top" alt="..." style="flex:1">
+                                <div style="display:flex;align-items:center;justify-content:center;overflow:hidden;height:150px">
+                                    <img src="${item.src}" class="card-img-top" alt="..." style="width:100%;height:auto">
+                                </div>
                                 <div class="card-body" style="flex:1">
                                     <h5 class="card-title">${item.name}</h5>
                                     <p class="card-text" style="color: #888;">Ngày đăng: ${moment(item.createdAt.$date).format('lll')}</p>
