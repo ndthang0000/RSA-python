@@ -1,25 +1,24 @@
+import base64
+from Crypto.Cipher import AES
+from Crypto import Random
+from Crypto.Util.Padding import pad, unpad
 
-def int_2_hex(n):
-    return "{:02x}".format(n)
+class AESCipher:
+    def __init__( self, key ):
+        self.key = key
 
-def hex_2_int(h):
-    return int(h, 10)
+    def encrypt( self, raw ):
+        raw = pad(raw,AES.block_size)
+        iv = Random.new().read( AES.block_size )
+        cipher = AES.new( self.key, AES.MODE_CBC, iv )
+        return base64.b64encode( iv + cipher.encrypt( raw ) ) 
 
-def encryption( ptext, e, n):
-    e, n = hex_2_int(e), hex_2_int(n)
-    print(e)
-    print(n)
-    bytes = ptext.encode("utf-8")
-    print(bytes)
-    h = ""
-    for b in bytes:
-            h += int_2_hex(b)
-    num = int(h, 16)
-    print(num)
-    encrypt = lambda x: pow(x, e, n)
-    return int_2_hex(encrypt(num))
+    def decrypt( self, enc ):
+        enc = base64.b64decode(enc)
+        iv = enc[:16]
+        cipher = AES.new(self.key, AES.MODE_CBC, iv )
+        return unpad(cipher.decrypt( enc[16:] ))
 
-print(encryption('thang','65537',"7397849150548645873240494014015405378600713288847532891648947039561514104392508445520397104091162577087793788722573050254203912218463462548276555654472059"))
-
-# d="35783117639256004117021477981031837054128600829526342778166779247463264584774554099835574907843884541775170419149232785593443464668983266779656940142729"
-# encrypt =1730187237174373278002546062558773411574874258114151770047574903923602398952323314883667937956996340283345448460508981108675377771448010578168637026705152
+a=AESCipher('thang nguyen')
+encrypt_message=a.encrypt('nguyen duc thang')
+print(encrypt_message)

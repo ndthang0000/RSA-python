@@ -25,10 +25,6 @@ UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 secretKey='keyjwt'
-# img = Image.open("static/upload/52785b27-aafc-4ae8-a5bf-f590664b4766.png")
-# print(img)
-# new_img = img.filter(ImageFilter.GaussianBlur(radius=5))
-# new_img.show()
 
 
 mongodb_client = PyMongo(app, uri="mongodb+srv://phamnguyet:nguyetchuot.12@cluster0.w4fcj.mongodb.net/test")
