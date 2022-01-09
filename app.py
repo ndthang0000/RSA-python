@@ -15,6 +15,8 @@ import jwt
 import json
 from bson import json_util
 
+import RSA
+
 app = Flask(__name__)
 CORS(app) 
 
@@ -43,21 +45,25 @@ def upload():
     width=request.json['width']
     height=request.json['height']
     name=request.json['name']
+    key_encrypt=request.json['key']
     token=request.headers['Authorization'].split(' ')[1]
     username = jwt.decode(token,secretKey, algorithms=['HS256'])
     user = db.user.find_one({"username": username['username']})
+    AES_KEY=db.aes_key.find_one({"key_encrypt":key_encrypt})
     if user:
         db.image.insert_one({'ciphertext': rawImage,
                             'user':user['_id'],
                             'name': name,
                             'width': width,
                             'height':height,
+                            'key': AES_KEY['key'],
+                            'shareId':[],
                             'createdAt': datetime.datetime.now()
                             })
+        db.aes_key.delete_one({"key_encrypt":key_encrypt})
         return jsonify(success=True)
     else:
         return jsonify(success=False,message='User không tồn tại')
-
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -91,11 +97,8 @@ def login():
 @app.route('/api/my-image', methods=['GET'])
 def get_image():
     token=request.headers['Authorization'].split(' ')[1]
-    print(token)
     username = jwt.decode(token,secretKey, algorithms=['HS256'])
-    print(username)
     user = db.user.find_one({"username": username['username']})
-    print(user)
     if user:
         all_image=db.image.find({"user":user['_id']})
         data=json_util.dumps(all_image)
@@ -105,10 +108,21 @@ def get_image():
 
 @app.route('/api/rsa', methods=['POST'])
 def getRSA():
-    d = request.json['d']
+    n = request.json['n']
     e = request.json['e']
-    print(d,e)
-    return jsonify(success=False, message=d)
+    print(n,e)
+    AES_KEY=str(uuid.uuid1()).split('-')[0] +'theone'
+    print(AES_KEY)
+    e=int(str(e),10)
+    n=int(str(n),10)
+    AES_KEY_ENCRYPT=RSA.encryption(AES_KEY,e,n)
+    print(AES_KEY_ENCRYPT)
+    print(type(AES_KEY_ENCRYPT))
+    db.aes_key.insert_one({
+        'key':str(AES_KEY),
+        'key_encrypt':str(AES_KEY_ENCRYPT)
+    })
+    return jsonify(success=True, AES_KEY=str(AES_KEY_ENCRYPT))
 
 @app.route('/api/test', methods=['GET'])
 def test():
