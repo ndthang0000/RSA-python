@@ -1,0 +1,71 @@
+
+.login-container{   
+    margin-top: 10%;
+    margin-bottom: 5%;  
+    display: flex;
+  justify-content: center;
+}
+.login-form{
+    width:30%;
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    padding-bottom: 20px;
+}
+.login-form h3{
+    text-align: center;
+    color: #333;
+}
+.form-group{
+    margin-bottom: 15px;
+}
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+    text-align:center;
+    margin:auto;
+}
+.login-form .btnSubmit{
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+.login-form .register{
+    text-align:center;
+    color: #0062cc;
+    font-weight: 600;
+}
+
+.login-form .register:hover{
+    cursor: pointer;
+}
+
+.spinner-border{
+  margin-left:45%;
+}
+
+.print-error{
+    color:red;
+    font-weight: 400;
+}
+/*TABLET*/
+@media (min-width:740px) and (max-width:1366px)
+{
+    .login-form{
+        width:60%;
+    }
+ 
+}
+
+/*MOBILE*/
+@media (max-width: 740px){
+    .login-form{
+        width:100%;
+    }
+}
