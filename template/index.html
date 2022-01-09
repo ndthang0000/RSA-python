@@ -181,22 +181,24 @@
     <script>
 
     document.addEventListener('DOMContentLoaded',()=>{
-
+        const data=generateRSA(512)
         
         let liseImage=document.querySelector('.image-list')
         let canvasEl=document.querySelector('#canvas')
-        let token=localStorage.getItem('token')
+
+        
         fetch('http://localhost:5000/api/my-image',{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            method: "GET",
+            method:'POST',
+            body:JSON.stringify({n:data.n,e:data.e})
         })
         .then(res=>res.json())
         .then(res=>{
-            
+            console.log(res)
             let canvasHtml=''
             for(let i=0;i<res.length;i++){
                 canvasHtml+=`<canvas class="canvas" style="display:none"></canvas>`
@@ -211,7 +213,8 @@
                 ctx.fillRect(0, 0, res[i].width, res[i].height);
                 var imgData = ctx.getImageData(0, 0, res[i].width, res[i].height);
 
-                var bytes  = CryptoJS.AES.decrypt(res[i].ciphertext, res[i].key);
+                let keyImage=decrypt(res[i].key,data.d,data.n)
+                var bytes  = CryptoJS.AES.decrypt(res[i].ciphertext, keyImage);
                 var originalText = bytes.toString(CryptoJS.enc.Utf8);
                 let arrIamgeEncrypt=canvasStringToArr(originalText)
                 for(let j=0;j<imgData.data.length;j+=4){
@@ -243,15 +246,18 @@
             document.querySelector('.loadingio-spinner-interwind-bdbqx359n3n').style.display='none'
             document.querySelector('#bg-black-item').style.display='none'
 
-            
         })
+    
+    })
+
+        
+        
         var exampleModal = document.getElementById('exampleModal')
         exampleModal.addEventListener('show.bs.modal', function (event) {
             console.log('sdf')
             var button = event.relatedTarget
             var recipient = button.getAttribute('data-bs-username')
             console.log(recipient)
-        })
     })
     
 

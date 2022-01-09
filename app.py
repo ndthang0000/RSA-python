@@ -94,13 +94,19 @@ def login():
         return jsonify(success=False, message='Mật khẩu không chính xác')
     return jsonify(success=False, message='Tài khoản không tồn tại')
 
-@app.route('/api/my-image', methods=['GET'])
+@app.route('/api/my-image', methods=['POST'])
 def get_image():
+    n = request.json['n']
+    e = request.json['e']
+    e=int(str(e),10)
+    n=int(str(n),10)
     token=request.headers['Authorization'].split(' ')[1]
     username = jwt.decode(token,secretKey, algorithms=['HS256'])
     user = db.user.find_one({"username": username['username']})
     if user:
-        all_image=db.image.find({"user":user['_id']})
+        all_image=list(db.image.find({"user":user['_id']}))
+        for item in all_image:
+            item['key']=str(RSA.encryption(item['key'],e,n))
         data=json_util.dumps(all_image)
         return Response(data,mimetype='application/json')
     else:
@@ -110,14 +116,10 @@ def get_image():
 def getRSA():
     n = request.json['n']
     e = request.json['e']
-    print(n,e)
     AES_KEY=str(uuid.uuid1()).split('-')[0] +'theone'
-    print(AES_KEY)
     e=int(str(e),10)
     n=int(str(n),10)
     AES_KEY_ENCRYPT=RSA.encryption(AES_KEY,e,n)
-    print(AES_KEY_ENCRYPT)
-    print(type(AES_KEY_ENCRYPT))
     db.aes_key.insert_one({
         'key':str(AES_KEY),
         'key_encrypt':str(AES_KEY_ENCRYPT)
