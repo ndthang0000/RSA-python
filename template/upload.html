@@ -97,6 +97,9 @@
     <script type="text/javascript">
         
         document.addEventListener("DOMContentLoaded",(e)=>{
+            const data=generateRSA(512)
+
+
             const imageName=document.querySelector('input[name="image-name"]')
             const imagePreviewEl=document.querySelector('#image-preview')
             const fileEl=document.querySelector('input[name="image"]')
@@ -124,6 +127,8 @@
             }
 
             //file input change
+            let ciphertext;
+            let myImage;
             fileEl.addEventListener('change',(e)=>{
                 btnSaveImg.style.pointerEvents='auto'
                 btnSaveImg.style.opacity='1'
@@ -138,7 +143,7 @@
                 var reader = new FileReader();
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onloadend = function (e) {
-                    var myImage = new Image()
+                    myImage = new Image()
                     myImage.src = e.target.result
                     myImage.onload = function(ev) {
                         canvas.width=myImage.width
@@ -148,7 +153,6 @@
                         rawData=ctx.getImageData(0,0,canvas.width,canvas.height)
                         document.querySelector('.image-preview-area').style.height=300*myImage.height/myImage.width+'px'
                         //String image
-                        var ciphertext = CryptoJS.AES.encrypt(canvasArrToString(rawData.data), 'secret key 123').toString();
                     }
                 } 
             })
@@ -164,7 +168,7 @@
                     let spinner=document.querySelector('.spinner-border')
                     spinner.style.visibility='visible'
 
-                    const data=generateRSA(512)
+
                     fetch(`http://localhost:5000/api/rsa`,{
                         headers:{
                             'Accept':'application/json',
@@ -172,12 +176,15 @@
                             'Authorization': `Bearer ${token}`,
                         },
                         method:'POST',
-                        body:JSON.stringify({d:data.d,e:data.e})
+                        body:JSON.stringify({n:data.n,e:data.e})
                     })
                     .then(res=>res.json())
                     .then(res=>{
                         console.log(res)
-                        encrypt(res.AES_KEY,data.d,data.n)
+                        let keyAES=decrypt(res.AES_KEY,data.d,data.n)
+                        console.log(keyAES)
+                        ciphertext = CryptoJS.AES.encrypt(canvasArrToString(rawData.data), keyAES).toString();
+                        console.log(ciphertext)
                         fetch(`http://localhost:5000/api/upload`,
                         {
                             headers:{
@@ -190,9 +197,10 @@
                                 image:ciphertext,
                                 width:myImage.width,
                                 height:myImage.height,
-                                name:imageName.value
+                                name:imageName.value,
+                                key:res.AES_KEY
                             })
-                        })
+                        }) 
                         .then(res=>res.json())
                         .then(res=>{
                             console.log(res)

@@ -80,8 +80,13 @@ function generateRSA(bit)
         e:65537,
     }
 }
-function encrypt(encrypted_message,d,n){
+function decrypt(encrypted_message,d,n){
     const decrypted_message = RSA.decrypt(encrypted_message, d, n);
     const decoded_message = RSA.decode(decrypted_message);
     return decoded_message
+}
+function encrypt(message,n,e){
+    const encoded_message = RSA.encode(message);
+    const encrypted_message = RSA.encrypt(encoded_message, n, e);
+    return encrypted_message
 }

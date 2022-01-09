@@ -1,4 +1,5 @@
 let token=localStorage.getItem('token')
+console.log(token)
 function canvasArrToString(pix) {
     var s="";
     // Removes alpha to save space.
